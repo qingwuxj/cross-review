@@ -6,7 +6,7 @@ Cross-Review is an Agent-native skill for finding cross-module contract breaks. 
 
 - Install pinned local dependencies with `python -m pip install -r requirements-dev.txt`.
 - Run `python -m pytest tests/` before submitting changes.
-- Run the skill validator before release-facing changes.
+- Run the Codex skill validator before release-facing changes when Codex is available.
 - Add or update a regression case for every new analyzer capability.
 - Do not add external model calls to Agent mode.
 - Do not present mock findings as real audit output.
@@ -47,6 +47,15 @@ $skillValidator = if ($env:CODEX_HOME) {
 }
 $env:PYTHONUTF8 = "1"
 python $skillValidator "."
+python -m cross_review.cli benchmark --cases examples/regression_cases
+python -m cross_review.cli prepare --root examples/toy_api_break --files src/billing/client.py --lite
+python -m cross_review.cli validate-pack --pack examples/toy_api_break/.cross-review/agent_review_pack.json
+```
+
+If you do not have Codex installed, run the portable checks below and state that the Codex skill validator was not run:
+
+```powershell
+python -m pytest tests/
 python -m cross_review.cli benchmark --cases examples/regression_cases
 python -m cross_review.cli prepare --root examples/toy_api_break --files src/billing/client.py --lite
 python -m cross_review.cli validate-pack --pack examples/toy_api_break/.cross-review/agent_review_pack.json

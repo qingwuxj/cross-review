@@ -22,6 +22,21 @@ python -m cross_review.cli validate-pack --pack examples/toy_api_break/.cross-re
 
 Run the commands from the repository root after installing the package in editable mode. The skill validator path depends on the local Codex installation; the PowerShell snippet above uses `CODEX_HOME` when it is set and falls back to the default `$HOME/.codex` location.
 
+## Portable Contributor Checks
+
+Contributors without Codex installed can run the portable checks below for local development and pull requests:
+
+```powershell
+python -m pip install -e ".[dev]"
+cross-review doctor --root examples/toy_api_break
+python -m pytest tests/
+python -m cross_review.cli benchmark --cases examples/regression_cases
+python -m cross_review.cli prepare --root examples/toy_api_break --files src/billing/client.py --lite
+python -m cross_review.cli validate-pack --pack examples/toy_api_break/.cross-review/agent_review_pack.json
+```
+
+Official Codex skill releases should still include the Codex `quick_validate.py` check from the required command list above.
+
 ## Documentation
 
 - README quickstart works.

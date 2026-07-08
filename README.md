@@ -456,6 +456,15 @@ $env:PYTHONUTF8 = "1"
 python $skillValidator "."
 ```
 
+The skill validator is a Codex-specific maintainer check. If you do not have Codex installed, run the portable local checks instead:
+
+```powershell
+python -m pytest tests/
+python -m cross_review.cli benchmark --cases examples/regression_cases
+python -m cross_review.cli prepare --root examples/toy_api_break --files src/billing/client.py --lite
+python -m cross_review.cli validate-pack --pack examples/toy_api_break/.cross-review/agent_review_pack.json
+```
+
 Run release checks:
 
 ```powershell
