@@ -1,0 +1,18 @@
+{
+  "name": "graphql_field_break",
+  "changed_files": [
+    "src/schema/billing.graphql"
+  ],
+  "expected_edges": [
+    {
+      "from_module": "schema",
+      "to_module": "web",
+      "changed_contract_ids": [
+        "graphql:field:src/schema/billing.graphql:User.planTier"
+      ],
+      "callsite_id_prefixes": [
+        "graphql:field-read:src/web/query.ts:loadUserPlan:"
+      ]
+    }
+  ]
+}

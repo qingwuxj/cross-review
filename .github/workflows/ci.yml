@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Check editable install
+        run: cross-review doctor --root examples/toy_api_break
+
+      - name: Run tests
+        run: python -m pytest tests/
+
+      - name: Run regression benchmark
+        run: python -m cross_review.cli benchmark --cases examples/regression_cases
+
+      - name: Validate Agent pack
+        run: |
+          python -m cross_review.cli prepare --root examples/toy_api_break --files src/billing/client.py --lite
+          python -m cross_review.cli validate-pack --pack examples/toy_api_break/.cross-review/agent_review_pack.json

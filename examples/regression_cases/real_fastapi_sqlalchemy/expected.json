@@ -1,0 +1,18 @@
+{
+  "name": "real_fastapi_sqlalchemy",
+  "changed_files": [
+    "src/db/migrations/2026_add_plan_code.sql"
+  ],
+  "expected_edges": [
+    {
+      "from_module": "db",
+      "to_module": "billing",
+      "changed_contract_ids": [
+        "sql:column:src/db/migrations/2026_add_plan_code.sql:subscriptions.plan_code"
+      ],
+      "callsite_id_prefixes": [
+        "python:sql-write:src/billing/repository.py:create_subscription:"
+      ]
+    }
+  ]
+}

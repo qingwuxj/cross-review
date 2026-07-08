@@ -1,0 +1,48 @@
+# Release Checklist
+
+Run this checklist before publishing Cross-Review.
+
+## Required Commands
+
+```powershell
+python -m pip install -e ".[dev]"
+cross-review doctor --root examples/toy_api_break
+python -m pytest tests/
+python C:\Users\86193\.codex\skills\.system\skill-creator\scripts\quick_validate.py "C:\Users\86193\Desktop\cross review\cross-review-skill"
+python -m cross_review.cli benchmark --cases examples/regression_cases
+python -m cross_review.cli prepare --root examples/toy_api_break --files src/billing/client.py
+python -m cross_review.cli validate-pack --pack examples/toy_api_break/.cross-review/agent_review_pack.json
+```
+
+## Documentation
+
+- README quickstart works.
+- Agent mode vs standalone mode is clearly explained.
+- API key behavior is clearly documented.
+- Known limitations are current.
+- Benchmark coverage is current.
+- `cross-review.toml` configuration behavior is documented.
+- `context_budget` pack metadata is documented.
+- Benchmark remains at or above 26 fixed cases.
+- Benchmark includes realistic project-layout fixtures.
+- Benchmark metrics are documented.
+- CLI helper commands are documented.
+- Benchmark expected files include changed contracts, call-site prefixes, and change types when before/after evidence is available.
+- Prompt templates use neutral audit language.
+- Privacy statement is current.
+- `pyproject.toml` uses standard PEP 621 metadata and CI tests editable install.
+
+## Safety
+
+- No real API keys are committed.
+- No generated mock finding is described as real audit output.
+- `.cross-review` generated files are not accidentally packaged as source examples unless intentional.
+- Regression expected files are reviewed.
+
+## Quality Bar
+
+- Tests pass.
+- Skill validator passes.
+- Benchmark passes.
+- High/blocking report findings require structured pack-grounded evidence.
+- New analyzer capabilities have regression cases.

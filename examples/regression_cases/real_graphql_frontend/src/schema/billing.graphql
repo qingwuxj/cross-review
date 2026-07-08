@@ -1,0 +1,8 @@
+type Subscription {
+  id: ID!
+  planName: String!
+}
+
+type Query {
+  subscription(id: ID!): Subscription
+}

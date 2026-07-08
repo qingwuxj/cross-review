@@ -1,0 +1,18 @@
+{
+  "name": "real_express_service",
+  "changed_files": [
+    "src/api/orders.ts"
+  ],
+  "expected_edges": [
+    {
+      "from_module": "api",
+      "to_module": "services",
+      "changed_contract_ids": [
+        "typescript:route:src/api/orders.ts:/orders/:orderId"
+      ],
+      "callsite_id_prefixes": [
+        "typescript:route-call:src/services/orderDashboard.ts:loadOrder:"
+      ]
+    }
+  ]
+}

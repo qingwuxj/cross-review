@@ -1,0 +1,18 @@
+{
+  "name": "python_class_constructor_break",
+  "changed_files": [
+    "src/billing/models.py"
+  ],
+  "expected_edges": [
+    {
+      "from_module": "billing",
+      "to_module": "admin",
+      "changed_contract_ids": [
+        "python:class:src/billing/models.py:BillingPlan"
+      ],
+      "callsite_id_prefixes": [
+        "python:call:src/admin/panel.py:create_default_plan:"
+      ]
+    }
+  ]
+}

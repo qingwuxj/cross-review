@@ -1,0 +1,18 @@
+{
+  "name": "real_graphql_frontend",
+  "changed_files": [
+    "src/schema/billing.graphql"
+  ],
+  "expected_edges": [
+    {
+      "from_module": "schema",
+      "to_module": "frontend",
+      "changed_contract_ids": [
+        "graphql:field:src/schema/billing.graphql:Subscription.planName"
+      ],
+      "callsite_id_prefixes": [
+        "graphql:field-read:src/frontend/BillingCard.tsx:SubscriptionCard:"
+      ]
+    }
+  ]
+}

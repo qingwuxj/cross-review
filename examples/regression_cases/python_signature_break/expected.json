@@ -1,0 +1,21 @@
+{
+  "name": "python_signature_break",
+  "changed_files": [
+    "src/billing/client.py"
+  ],
+  "expected_edges": [
+    {
+      "from_module": "billing",
+      "to_module": "admin",
+      "changed_contract_ids": [
+        "python:function:src/billing/client.py:charge_user"
+      ],
+      "changed_contract_change_types": {
+        "python:function:src/billing/client.py:charge_user": "signature_changed"
+      },
+      "callsite_id_prefixes": [
+        "python:call:src/admin/panel.py:trigger_billing_override:"
+      ]
+    }
+  ]
+}

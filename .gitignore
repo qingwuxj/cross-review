@@ -1,0 +1,14 @@
+.cross-review/
+.codegraph/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+node_modules/

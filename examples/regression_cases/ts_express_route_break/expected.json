@@ -1,0 +1,18 @@
+{
+  "name": "ts_express_route_break",
+  "changed_files": [
+    "src/api/orders.ts"
+  ],
+  "expected_edges": [
+    {
+      "from_module": "api",
+      "to_module": "client",
+      "changed_contract_ids": [
+        "typescript:route:src/api/orders.ts:/orders/:orderId"
+      ],
+      "callsite_id_prefixes": [
+        "typescript:route-call:src/client/dashboard.ts:loadOrder:"
+      ]
+    }
+  ]
+}

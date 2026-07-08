@@ -1,0 +1,18 @@
+{
+  "name": "python_sql_not_null_migration",
+  "changed_files": [
+    "src/db/migrations/2026_add_plan.sql"
+  ],
+  "expected_edges": [
+    {
+      "from_module": "db",
+      "to_module": "billing",
+      "changed_contract_ids": [
+        "sql:column:src/db/migrations/2026_add_plan.sql:subscriptions.plan_tier"
+      ],
+      "callsite_id_prefixes": [
+        "python:sql-write:src/billing/subscription.py:create_subscription:"
+      ]
+    }
+  ]
+}

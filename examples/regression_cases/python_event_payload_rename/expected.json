@@ -1,0 +1,18 @@
+{
+  "name": "python_event_payload_rename",
+  "changed_files": [
+    "src/order/events.py"
+  ],
+  "expected_edges": [
+    {
+      "from_module": "order",
+      "to_module": "notification",
+      "changed_contract_ids": [
+        "python:event:src/order/events.py:OrderPaid"
+      ],
+      "callsite_id_prefixes": [
+        "python:event-listener:src/notification/listener.py:register:"
+      ]
+    }
+  ]
+}
