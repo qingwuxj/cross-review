@@ -1,8 +1,10 @@
-# Cross-Review Project Modification Opinion
+# Archived Initial Modification Opinion
+
+This is a historical review note from the early prototype stage. It is kept only to preserve design history; the P1/P2 items below are not the current project status. Current user-facing status lives in `README.md`, `SKILL.md`, and `docs/implementation-roadmap.md`.
 
 ## Positioning
 
-Cross-Review is currently a Python CLI and library prototype for dependency-graph-driven cross-module code review. It is not yet a complete Codex skill because the package has no `SKILL.md` entry point or agent-facing metadata.
+At the time this note was written, Cross-Review was a Python CLI and library prototype for dependency-graph-driven cross-module code review. It was not yet a complete Codex skill because the package had no `SKILL.md` entry point or agent-facing metadata.
 
 The strongest path is to stabilize the CLI/tool kernel first, then wrap it as a skill. The LLM layer should only consume compact, evidence-bearing context produced by deterministic local tools.
 

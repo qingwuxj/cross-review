@@ -8,11 +8,19 @@ Run this checklist before publishing Cross-Review.
 python -m pip install -e ".[dev]"
 cross-review doctor --root examples/toy_api_break
 python -m pytest tests/
-python C:\Users\86193\.codex\skills\.system\skill-creator\scripts\quick_validate.py "C:\Users\86193\Desktop\cross review\cross-review-skill"
+$skillValidator = if ($env:CODEX_HOME) {
+  Join-Path $env:CODEX_HOME "skills/.system/skill-creator/scripts/quick_validate.py"
+} else {
+  Join-Path $HOME ".codex/skills/.system/skill-creator/scripts/quick_validate.py"
+}
+$env:PYTHONUTF8 = "1"
+python $skillValidator "."
 python -m cross_review.cli benchmark --cases examples/regression_cases
 python -m cross_review.cli prepare --root examples/toy_api_break --files src/billing/client.py
 python -m cross_review.cli validate-pack --pack examples/toy_api_break/.cross-review/agent_review_pack.json
 ```
+
+Run the commands from the repository root after installing the package in editable mode. The skill validator path depends on the local Codex installation; the PowerShell snippet above uses `CODEX_HOME` when it is set and falls back to the default `$HOME/.codex` location.
 
 ## Documentation
 

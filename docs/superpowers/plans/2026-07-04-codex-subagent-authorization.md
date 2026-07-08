@@ -128,7 +128,7 @@ Expected: all selected tests pass.
 **Files:**
 - Modify: `README.md`
 - Modify: `docs/implementation-roadmap.md`
-- Synchronize verified files to: `C:\Users\86193\.codex\skills\cross-review-skill`
+- Synchronize verified files to: `<codex-home>\skills\cross-review-skill`
 
 - [ ] **Step 1: Document the Codex constraint**
 
@@ -151,7 +151,7 @@ Run:
 
 ```powershell
 $env:PYTHONUTF8 = "1"
-python "C:\Users\86193\.codex\skills\.system\skill-creator\scripts\quick_validate.py" .
+python "<codex-home>\skills\.system\skill-creator\scripts\quick_validate.py" .
 ```
 
 Expected: `Skill is valid!`
@@ -162,7 +162,7 @@ Copy only the changed skill/package files into the installed skill directory, pr
 
 - [ ] **Step 5: Verify the installed copy**
 
-Run the same focused tests and skill validator against `C:\Users\86193\.codex\skills\cross-review-skill`.
+Run the same focused tests and skill validator against `<codex-home>\skills\cross-review-skill`.
 
 Expected: tests pass and `Skill is valid!`
 

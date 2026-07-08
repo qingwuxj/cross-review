@@ -102,7 +102,7 @@ Expected: all tests pass.
 
 - [ ] **Step 2: Validate skill**
 
-Run: `python C:\Users\86193\.codex\skills\.system\skill-creator\scripts\quick_validate.py "C:\Users\86193\Desktop\cross review\cross-review-skill"`
+Run: `python <codex-home>\skills\.system\skill-creator\scripts\quick_validate.py "<cross-review-skill-root>"`
 
 Expected: `Skill is valid!`
 

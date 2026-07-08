@@ -22,7 +22,9 @@ Cross-Review is now an Agent-native cross-module review skill with these impleme
 - Contract graph dispatch is split through `contracts/builder.py` and language analyzer entrypoints in `contracts/python.py`, `typescript.py`, `sql.py`, `graphql.py`, and `protobuf.py`.
 - README includes short, non-exhaustive examples of an Agent review pack excerpt and final finding shape.
 
-Implemented Phase plans:
+Historical implementation plans are kept under `docs/superpowers/` for contributor auditability. They are not required user documentation, and the current project state is authoritative in this roadmap, `README.md`, and `SKILL.md`.
+
+Implemented phase plan archive:
 
 - `docs/superpowers/plans/2026-05-24-phase-1-validation.md`
 - `docs/superpowers/plans/2026-05-24-phase-2-contract-graph.md`
@@ -253,7 +255,13 @@ After each phase, run:
 
 ```powershell
 python -m pytest tests/
-python C:\Users\86193\.codex\skills\.system\skill-creator\scripts\quick_validate.py "C:\Users\86193\Desktop\cross review\cross-review-skill"
+$skillValidator = if ($env:CODEX_HOME) {
+  Join-Path $env:CODEX_HOME "skills/.system/skill-creator/scripts/quick_validate.py"
+} else {
+  Join-Path $HOME ".codex/skills/.system/skill-creator/scripts/quick_validate.py"
+}
+$env:PYTHONUTF8 = "1"
+python $skillValidator "."
 python -m cross_review.cli benchmark --cases examples/regression_cases
 python -m cross_review.cli prepare --root examples/toy_api_break --files src/billing/client.py
 python -m cross_review.cli validate-pack --pack examples/toy_api_break/.cross-review/agent_review_pack.json

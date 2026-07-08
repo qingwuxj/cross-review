@@ -447,18 +447,32 @@ python -m pytest tests/
 Run skill validation:
 
 ```powershell
-python C:\Users\86193\.codex\skills\.system\skill-creator\scripts\quick_validate.py "C:\Users\86193\Desktop\cross review\cross-review-skill"
+$skillValidator = if ($env:CODEX_HOME) {
+  Join-Path $env:CODEX_HOME "skills/.system/skill-creator/scripts/quick_validate.py"
+} else {
+  Join-Path $HOME ".codex/skills/.system/skill-creator/scripts/quick_validate.py"
+}
+$env:PYTHONUTF8 = "1"
+python $skillValidator "."
 ```
 
 Run release checks:
 
 ```powershell
 python -m pytest tests/
-python C:\Users\86193\.codex\skills\.system\skill-creator\scripts\quick_validate.py "C:\Users\86193\Desktop\cross review\cross-review-skill"
+$skillValidator = if ($env:CODEX_HOME) {
+  Join-Path $env:CODEX_HOME "skills/.system/skill-creator/scripts/quick_validate.py"
+} else {
+  Join-Path $HOME ".codex/skills/.system/skill-creator/scripts/quick_validate.py"
+}
+$env:PYTHONUTF8 = "1"
+python $skillValidator "."
 python -m cross_review.cli benchmark --cases examples/regression_cases
 python -m cross_review.cli prepare --root examples/toy_api_break --files src/billing/client.py --lite
 python -m cross_review.cli validate-pack --pack examples/toy_api_break/.cross-review/agent_review_pack.json
 ```
+
+Documentation index: [docs/README.md](docs/README.md)
 
 Contribution rules: [CONTRIBUTING.md](CONTRIBUTING.md)
 

@@ -118,7 +118,7 @@ python -m pytest tests/
 python -m cross_review.cli benchmark --cases examples/regression_cases
 python -m cross_review.cli prepare --root examples/toy_api_break --files src/billing/client.py --lite
 python -m cross_review.cli validate-pack --pack examples/toy_api_break/.cross-review/agent_review_pack.json
-python C:\Users\86193\.codex\skills\.system\skill-creator\scripts\quick_validate.py .
+python <codex-home>\skills\.system\skill-creator\scripts\quick_validate.py .
 ```
 
 Expected: all pass; skill validator prints `Skill is valid!`.

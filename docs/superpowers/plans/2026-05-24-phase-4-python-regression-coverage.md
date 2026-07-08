@@ -168,7 +168,7 @@ Run:
 
 ```powershell
 python -m pytest tests/
-python C:\Users\86193\.codex\skills\.system\skill-creator\scripts\quick_validate.py "C:\Users\86193\Desktop\cross review\cross-review-skill"
+python <codex-home>\skills\.system\skill-creator\scripts\quick_validate.py "<cross-review-skill-root>"
 python -m cross_review.cli benchmark --cases examples/regression_cases
 ```
 
