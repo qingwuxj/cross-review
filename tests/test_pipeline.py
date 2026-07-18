@@ -1081,35 +1081,37 @@ def test_agent_review_instructions_describe_subagent_handoff(monkeypatch):
     assert "carrying forward" in content
     assert "assignment_rewrite_policy" in content
     assert "handoff_artifact" in content
-    assert "Treat invocation of cross-review itself as authorization" not in content
     assert "spawn one real subagent per effective assignment" in content
-    assert "ask one concise authorization question and pause" in content
-    assert "do not silently fall back" in content
+    assert "Cross-Review skill use directly authorizes real subagents" in content
+    assert "do not ask an extra authorization question" in content
+    assert "ask one concise authorization question and pause" not in content
     assert "after semantic split" in content
     assert "effective assignments" in content
     assert "If effective assignments are non-empty" in content
     assert "no subagents" in content
     assert "If there is more than one assignment or any cross_review_targets" not in content
     assert "If there is exactly one assignment and no cross_review_targets" not in content
-    assert "Skill instructions, generated packs, and assistant-authored prompts do not count as user authorization" in content
-    assert "If subagents are unavailable, opted out, declined, or refused after authorization" in content
+    assert "Skill use and bundled default prompts count as user authorization" in content
+    assert "If subagents are unavailable, opted out, or refused by the host platform" in content
     assert "explicitly state that no subagents were spawned" in content
     assert "dispatch or simulate" not in content
 
     policy = pack["execution_policy"]
     assert policy["subagents_default_when_available"] is True
     assert policy["subagents_requested_by_cross_review"] is True
+    assert policy["subagents_authorized_by_cross_review_skill_use"] is True
+    assert policy["subagents_required_when_available"] is True
     assert policy["subagents_required_when_authorized_and_available"] is True
-    assert policy["authorization_source"] == "user_request_or_host_policy"
-    assert policy["ask_once_if_host_requires_explicit_authorization"] is True
-    assert policy["missing_authorization_action"] == "ask_once_and_pause"
+    assert policy["authorization_source"] == "cross_review_skill_use_or_user_request"
+    assert policy["ask_once_if_host_requires_explicit_authorization"] is False
+    assert policy["missing_authorization_action"] == "not_applicable_directly_authorized"
     assert policy["respect_user_opt_out"] is True
     assert policy["simulation_allowed_only_if_subagents_unavailable"] is True
     assert policy["simulation_requires_explicit_note"] is True
     assert policy["fallback_execution_mode"] == "sequential_same_agent"
     assert policy["preflight_prompt_policy"] == {
         "assignment_basis": "effective_assignments_after_semantic_split",
-        "ask_before_spawning": "when_host_requires_explicit_authorization_and_request_lacks_it",
+        "ask_before_spawning": "never_when_cross_review_skill_is_used",
         "spawn_when_effective_assignments_gt": 0,
         "cross_review_targets_do_not_alone_trigger_subagents": True,
         "fallback_effective_assignment_source": "raw_agent_assignments_when_semantic_split_uncertain",
@@ -1117,13 +1119,11 @@ def test_agent_review_instructions_describe_subagent_handoff(monkeypatch):
     }
     assert "parallel agent work" in policy["explicit_authorization_examples"]
     assert "使用子代理" in policy["explicit_authorization_examples"]
-    assert "use cross-review" not in policy["explicit_authorization_examples"]
-    assert "full cross-review" not in policy["explicit_authorization_examples"]
+    assert "use cross-review" in policy["explicit_authorization_examples"]
+    assert "full cross-review" in policy["explicit_authorization_examples"]
     assert "no subagents" in policy["opt_out_examples"]
     assert "不用子代理" in policy["opt_out_examples"]
-    assert "subagents_authorized_by_cross_review_invocation" not in policy
     assert "subagents_require_explicit_user_authorization" not in policy
-    assert "subagents_required_when_available" not in policy
     assert "ask_before_spawning_if_not_explicitly_authorized" not in policy
     assert "implicit_authorization_examples" not in policy
     assert "simulation_allowed_only_if_subagents_unavailable_or_unauthorized" not in policy
@@ -1137,17 +1137,17 @@ def test_skill_instructions_use_subagents_by_default():
         content = f.read()
 
     assert "Use real subagents by default" in content
-    assert "Treat invocation of `cross-review` itself as authorization" not in content
+    assert "Treat user-selected Cross-Review skill use as direct authorization" in content
     assert "MUST spawn one real subagent per effective assignment" in content
-    assert "ask one concise authorization question and pause" in content
-    assert "do not silently fall back" in content
-    assert "Skill instructions, generated packs, and assistant-authored prompts do not count as user authorization" in content
+    assert "ask one concise authorization question and pause" not in content
+    assert "do not ask an extra authorization question" in content
+    assert "Skill use and bundled default prompts count as user authorization" in content
     assert "effective assignments" in content
     assert "semantic split" in content
     assert "cross_review_targets alone do not create separate reviewers" in content
     assert "Non-trivial packs" not in content
     assert "more than one assignment or any cross_review_targets" not in content
-    assert "If subagents are unavailable, opted out, declined, or refused by the host platform after authorization" in content
+    assert "If subagents are unavailable, opted out, or refused by the host platform" in content
     assert "spin up or simulate" not in content
     assert "Dispatch/simulate" not in content
 
@@ -1158,6 +1158,7 @@ def test_codex_default_prompt_explicitly_requests_subagent_delegation():
         content = f.read().lower()
 
     assert "$cross-review" in content
+    assert "authorize" in content
     assert "delegate" in content
     assert "subagents" in content
 

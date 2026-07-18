@@ -1,7 +1,7 @@
 interface:
   display_name: "Cross-Review"
   short_description: "Graph-driven cross-module code review"
-  default_prompt: "Use $cross-review to audit my current changes for cross-module contract and integration risks, and delegate effective assignments to real subagents when available."
+  default_prompt: "Use $cross-review to audit my current changes for cross-module contract and integration risks, and I authorize you to delegate effective assignments to real subagents when available."
 
 policy:
   allow_implicit_invocation: true

@@ -41,14 +41,14 @@ examples/toy_api_break/.cross-review/agent_review_instructions.md
 
 Then let the host Agent follow `agent_review_instructions.md`.
 
-In Codex, select the Cross-Review skill's bundled default prompt when you want subagent review. That prompt explicitly asks Codex to delegate effective assignments, satisfying hosts that require user-authored subagent authorization without making users remember extra wording. If Cross-Review is invoked implicitly from a request that does not authorize delegation, the Agent asks one concise authorization question and pauses instead of silently downgrading to same-agent review. Hosts that do not require separate authorization can delegate immediately.
+In Codex, selecting or invoking Cross-Review directly authorizes real subagent review by default. The bundled default prompt also states that authorization explicitly, so users do not need to remember extra wording. If effective assignments exist and subagent tools are available, the Agent should spawn one reviewer per effective assignment unless the user opts out.
 
 ## What It Generates
 
 `prepare` writes an Agent review pack containing:
 
 - `agent_assignments`: one reviewer task per changed module.
-- `execution_policy`: requests real subagents by default while deferring authorization to the user request and host policy; semantic split `effective_assignments` drive one reviewer per assignment, and missing authorization triggers one question rather than silent fallback.
+- `execution_policy`: directly authorizes real subagents through Cross-Review skill use; semantic split `effective_assignments` drive one reviewer per assignment, and fallback is limited to opt-out, unavailable tools, or host refusal.
 - `cross_review_targets`: downstream modules to inspect in risk order.
 - `handoff_artifact`: structured module-review memory.
 - `memory_handoff`: instructions for carrying module findings into cross-review.
@@ -68,10 +68,12 @@ Short pack excerpt:
   "execution_policy": {
     "subagents_default_when_available": true,
     "subagents_requested_by_cross_review": true,
+    "subagents_authorized_by_cross_review_skill_use": true,
+    "subagents_required_when_available": true,
     "subagents_required_when_authorized_and_available": true,
-    "authorization_source": "user_request_or_host_policy",
-    "ask_once_if_host_requires_explicit_authorization": true,
-    "missing_authorization_action": "ask_once_and_pause"
+    "authorization_source": "cross_review_skill_use_or_user_request",
+    "ask_once_if_host_requires_explicit_authorization": false,
+    "missing_authorization_action": "not_applicable_directly_authorized"
   },
   "changed_files": ["src/billing/client.py"],
   "agent_assignments": [

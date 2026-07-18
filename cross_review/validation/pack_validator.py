@@ -95,8 +95,9 @@ def _validate_execution_policy(policy: Any, errors: list[str]):
     expected_true_keys = [
         "subagents_default_when_available",
         "subagents_requested_by_cross_review",
+        "subagents_authorized_by_cross_review_skill_use",
+        "subagents_required_when_available",
         "subagents_required_when_authorized_and_available",
-        "ask_once_if_host_requires_explicit_authorization",
         "respect_user_opt_out",
         "simulation_allowed_only_if_subagents_unavailable",
         "simulation_requires_explicit_note",
@@ -105,8 +106,9 @@ def _validate_execution_policy(policy: Any, errors: list[str]):
         if policy.get(key) is not True:
             errors.append(f"execution_policy.{key} must be true.")
     expected_policy_values = {
-        "authorization_source": "user_request_or_host_policy",
-        "missing_authorization_action": "ask_once_and_pause",
+        "authorization_source": "cross_review_skill_use_or_user_request",
+        "ask_once_if_host_requires_explicit_authorization": False,
+        "missing_authorization_action": "not_applicable_directly_authorized",
         "fallback_execution_mode": "sequential_same_agent",
     }
     for key, expected in expected_policy_values.items():
@@ -118,7 +120,7 @@ def _validate_execution_policy(policy: Any, errors: list[str]):
     else:
         expected_values = {
             "assignment_basis": "effective_assignments_after_semantic_split",
-            "ask_before_spawning": "when_host_requires_explicit_authorization_and_request_lacks_it",
+            "ask_before_spawning": "never_when_cross_review_skill_is_used",
             "spawn_when_effective_assignments_gt": 0,
             "cross_review_targets_do_not_alone_trigger_subagents": True,
             "fallback_effective_assignment_source": "raw_agent_assignments_when_semantic_split_uncertain",

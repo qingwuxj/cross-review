@@ -6,7 +6,7 @@ Cross-Review is now an Agent-native cross-module review skill with these impleme
 
 - Agent mode `prepare` does not require user-managed model API keys.
 - `agent_review_pack.json` contains module contexts, cross-review contexts, semantic splitter protocol, agent assignments, handoff artifacts, and contract graph evidence.
-- `execution_policy` requests real subagents by default without claiming to override host authorization. The Codex default prompt explicitly requests delegation; implicit invocations that lack required authorization ask once and pause, while same-agent sequential review remains limited to opt-out, decline, unavailable tools, or refusal after authorization.
+- `execution_policy` directly authorizes real subagents through Cross-Review skill use. The Codex default prompt explicitly authorizes delegation; same-agent sequential review remains limited to opt-out, unavailable tools, or host refusal.
 - Large-repo `prepare` avoids common timeout paths by skipping Python AST parsing for non-Python files and by switching to `auto-lite` when supported source-file count exceeds `review.auto_lite_file_threshold`.
 - `prepare_diagnostics` records stage timings and source/module counts in the Agent pack; `.cross-review/prepare_diagnostics.json` is refreshed during prepare so timeout failures still leave a current-stage snapshot.
 - `init-config --large-repo` writes conservative first-run settings for large repositories.

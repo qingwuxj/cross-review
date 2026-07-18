@@ -151,6 +151,8 @@ def test_validate_pack_rejects_execution_policy_without_default_subagent_policy(
 
     assert result.valid is False
     assert any("subagents_requested_by_cross_review" in error for error in result.errors)
+    assert any("subagents_authorized_by_cross_review_skill_use" in error for error in result.errors)
+    assert any("subagents_required_when_available" in error for error in result.errors)
     assert any("subagents_required_when_authorized_and_available" in error for error in result.errors)
     assert any("ask_once_if_host_requires_explicit_authorization" in error for error in result.errors)
     assert any("authorization_source" in error for error in result.errors)
